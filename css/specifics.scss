@@ -1,0 +1,111 @@
+.test {
+	background-color: #FFFEF8;
+	:visited {
+    color: inherit;
+	}
+}
+.insta {
+  height: 22px;
+  cursor: pointer;
+}
+
+nav ul {
+  display: flex;
+  align-items: center;
+  list-style-type: none;
+}
+nav li {
+  padding: 0 10px;
+  font-size: 1.2em;
+}
+li:hover {
+  color: #B1663C;
+}
+
+#intro {
+  display: flex;
+  align-items: center;
+}
+#intro figure {
+  flex: 1
+}
+#intro img {
+  display: block;
+  margin: auto;
+  width: 80%;
+}
+#intro article {
+  flex: 1
+}
+#intro h2 {
+  margin-bottom: 1em;
+}
+#intro p {
+  margin-bottom: 0.5em;
+}
+
+.h2MesProjets {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position:relative
+}
+.modifyButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  top: 5px;right: -22px;
+}
+#contact {
+  width: 50%;
+  margin: auto;
+}
+#contact > * {
+  text-align: center;
+}
+#contact h2{
+  margin-bottom: 20px;
+}
+#contact form {
+  text-align: left;
+  margin-top:30px;
+  display: flex;
+  flex-direction: column;
+}
+#contact input {
+  height: 50px;
+  font-size: 1.2em;
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+#contact label {
+  margin: 2em 0 1em 0;
+}
+#contact textarea {
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+input[type="submit"]{ // button "envoyer"
+  font-family: 'Syne';
+  font-weight: 700;
+  color: white;
+  background-color: #1D6154;
+  margin : 2em auto ;
+  width: 180px;
+  text-align: center;
+  border-radius: 60px ;
+}
+.forgotten {
+	text-align: center;
+	text-decoration: underline;
+}
+footer nav ul {
+  display: flex;
+  justify-content: flex-end;
+  margin: 2em;
+}
