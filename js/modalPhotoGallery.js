@@ -82,7 +82,55 @@ export function createModalPhotoGallery() {
     trashCan.classList.add("trashCan","fa-solid","fa-trash-can");
     trashButton.appendChild(trashCan);
     trashButton.addEventListener("click", function() {
-      deleteWork(i, filteredWorks[i].id, filteredWorks[i].title);
+//      deleteWork(i, filteredWorks[i].id, filteredWorks[i].title);
+
+
+
+// to be put back in backend.js ???????????????????????????????????????????????????????????????????????????
+//export async function deleteWork(index, id, title) {                                   // Delete a work
+  const backendWorks = "http://localhost:5678/api/works";
+  let token = lsRead("token","string")
+  if (token === null || token === undefined || token === "") {
+    alert("Pas connecté")
+  } else {
+    fetch(backendWorks + "/" + i, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json"
+        , Authorization: "Bearer " + token
+      },
+    })
+    .then (
+      response => {
+        console.log("----------------------------------------");         // CNSL
+        console.log("deleteWork:" + i);                                  // CNSL
+        console.log("response.status: "+response.status);                // CNSL
+        console.log("response: "+response)                               // CNSL
+        if (response.status === 204) {                                   // Token good
+          // Now that it's removed from server, 
+          alert("effacé du serveur : n°"+i+", id:"+filteredWorks[i].id+" - "+filteredWorks[i].title);  // CNSL
+
+          // let's remove it from local Storage
+          let works = JSON.parse(lsRead("works", "string"));             // Retrieve the array from localStorage
+          works.splice(i, 1);                                           // remove 1 element from place #index
+          works = JSON.stringify(works)
+          lsWrite("works","string",works);                               // Store the updated array back in localStorage
+          //let's reload the gallery & the modal
+          lsWrite("displaymodalphotogallery","boolean", true)
+          window.location.reload();
+        }
+        else if (response.status === 401) {                              // Token PAS good
+            alert("Pas d'autorisation")
+        }
+      }
+    )
+  }
+//}
+// to be put back in backend.js ???????????????????????????????????????????????????????????????????????????
+
+
+
+
     });
   // #endregion
     photoContainer.appendChild(thumbnailContainer);

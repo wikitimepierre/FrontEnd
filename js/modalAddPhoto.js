@@ -4,7 +4,7 @@ import {postWork, deleteWork} from "./backend.js";
 
 export function createModalAddPhoto() {
 
-  // #region blackOverlay (translucid background)
+// #region blackOverlay (translucid background)
   let blackOverlay = document.createElement("div");
   blackOverlay.classList.add("blackOverlay");
   document.body.appendChild(blackOverlay);
@@ -48,7 +48,7 @@ export function createModalAddPhoto() {
 
 // #region faImage (picture icon)
   let faImage = document.createElement("img");
-  faImage.setAttribute('id', 'photo')
+  faImage.setAttribute('id', 'faImage')
   faImage.src = "./assets/icons/faImage.png";
   faImage.classList.add("faImage");
   blueFrame.appendChild(faImage);
@@ -96,7 +96,7 @@ export function createModalAddPhoto() {
       photo.src = URL.createObjectURL(fileImage);
       blueFrame.appendChild(photo);
       // if the photo is modified then checkValidatePhoto
-      checkValidatePhoto();
+      // checkValidatePhoto();
     }
   });
 // #endregion
@@ -167,19 +167,20 @@ modalAddPhoto.appendChild(dropDownTextCategories);
     if (checkValidatePhoto()) {
       let title = document.getElementById('formText').value;
       let photo = document.getElementById('photo').src;
+      alert("check value of photo")
       let categoryId = Number(document.getElementById('dropDownListCategories').value);
       postWork (title, photo, categoryId)    // post picture to backend
     }
   });
 // #endregion
 
-// TODO AEFF
-cheatFast();                                                                   // test a work submission FAST (for debug)
+//cheatFast();                                                                   // test a work submission FAST (for debug)
 
 }
 
 function checkValidatePhoto() {                                               // returns true if work can be submitted (all conditions met)
-  let photo = (document.getElementById('photo').style.display === "none");
+  
+  let photo = (document.getElementById('photo'));
   let title = (document.getElementById('formText').value !== "");
   let category = (document.getElementById('dropDownListCategories').value !== "")
   let buttonAddPhoto = document.querySelector('.buttonAddPhoto');
@@ -189,15 +190,15 @@ function checkValidatePhoto() {                                               //
     buttonAddPhoto.classList.remove("filterButtonsNotValid");
     return true;
   } else if (buttonAddPhoto.classList.contains("filterButtonsValid")) {
-  buttonAddPhoto.classList.add("filterButtonsNotValid");
-  buttonAddPhoto.classList.remove("filterButtonsValid");
+    buttonAddPhoto.classList.add("filterButtonsNotValid");
+    buttonAddPhoto.classList.remove("filterButtonsValid");
   }
 }
-function cheatFast() {
+function cheatFast() {                                                           // test a work submission FAST (for debug)
   let photo = document.createElement("img");
   photo.setAttribute('id', 'photo')
   photo.classList.add("photo");
-  document.createElement("bleFrame").appendChild(photo);
+  document.createElement("blueFrame").appendChild(photo);
 
   document.getElementById('photo').src = "./assets/images/testi.png"
   document.getElementById('formText').value = "a";

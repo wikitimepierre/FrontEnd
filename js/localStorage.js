@@ -26,7 +26,7 @@ export function lsWrite(key, variableType, value) {                // Write in l
       window.localStorage.setItem(key, value);
       break;
     default:
-      alert('lsWrite Error');
+      alert('lsWrite Error- key:'+key+' type:'+variableType+' value:'+value);
   }
 }
 export function lsWriteDebugMode(value) {                                       // Switch debugMode on or off

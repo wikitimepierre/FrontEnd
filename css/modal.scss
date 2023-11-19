@@ -134,6 +134,9 @@
   top: 20px; left: 190px;
   width: 83px;
   height: 75px;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
 }
 .buttonBlueFrame{
   position: absolute;

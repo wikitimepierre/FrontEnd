@@ -6,14 +6,6 @@ import {createModalPhotoGallery} from "./modalPhotoGallery.js";
 import {createModalAddPhoto} from "./modalAddPhoto.js";
 // #endregion
 
-// TODO 
-// quand on delete ou ajoute un work, on relance la page avec un displaymodalphotogallery = true
-// à la fin des appels de fonction on met :
-// if displaymodalphotogallery = true then 
-// displaymodalphotogallery= false
-// call
-//TODO
-
 // #region fetch works & categories
   let works = window.localStorage.getItem("works");                                 // fetch  "works" in localStorage "works" string
   let categories = window.localStorage.getItem("categories");                       // fetch  "categories" in localStorage "works" string
@@ -34,8 +26,8 @@ import {createModalAddPhoto} from "./modalAddPhoto.js";
   }
   if (Number.isInteger(lsRead("activeFilter","integer")) === false)                 // no activeFilter ? set to 0 = "tous"
     {lsWrite("activeFilter","integer","0")}
-  if (lsRead("debugMode","boolean") === null) {lsWrite("debugMode",false)}          // no debugMode ? set it to false
-  if (lsRead("logMode","boolean") === null) {lsWrite("logMode","boolean", false)}   // no logMode ? set it to false
+  if (lsRead("debugMode","boolean") === null) {lsWrite("debugMode","boolean",false)}          // no debugMode ? set it to false
+  if (lsRead("logMode","boolean") === null) {lsWrite("logMode", false)}   // no logMode ? set it to false
 // #endregion
 
 testMenu();                                                                         // debug on/off button (on insta)
@@ -197,7 +189,6 @@ function createFilterButtons() {                                                
 // #endregion
 // #region show ModalPhotoGallery (after a delete or add work)
 if (lsRead("displaymodalphotogallery","boolean")) {
-  alert("displaymodalphotogallery reload");
   localStorage.removeItem('displaymodalphotogallery');
   createModalPhotoGallery();
 }
@@ -207,7 +198,8 @@ if (lsRead("displaymodalphotogallery","boolean")) {
 // xx redirect to homepage automatically if login done (window.location.href = "../index.html";)
 // TODO remove all console.logs ?
 // TODO repasser par tous les modules et verif les modules pas nécessaires à importer et les variables pas utilisées
-//HELP ' or " ?
+//TODO simplifier tous les appels à lsRead et lsWrite (enlever le type) + au début de ces fonctions, checker le nom de la variable et en déduire le type
+// HELP ' or " ?
 
 // Reminders for extension todo tree
 // TODO
