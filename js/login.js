@@ -1,4 +1,4 @@
-// you only arrive on this page if you are not LOGGED IN
+// you only arrive here if you are not LOGGED IN
 import {lsWrite,lsRead, lsWriteDebugMode, testMenu} from "./localStorage.js";
 import {postLoginPassword} from "./backend.js";
 import {createInstaListener, displayInsta, switchTestMenu} from "./localStorage.js";
@@ -15,13 +15,12 @@ function submitFormListener() {                                   // listener on
     let password = document.querySelector("#password").value;   // Get the value of the password input
     submitForm(email, password);
   });
-  console.log("submitFormListener function created listeners"); // CNSL
 }
 function submitForm(email, password) {                            // post login-password
-    console.log("submitForm("+email+","+password+")");          // CNSL
-    if (validationEmail(email)=== false) {
-      console.log("Email non valide");                          // CNSL
-    } else {
+  if (validationEmail(email)=== false) {
+    alert("Email non valide");                                    // CNSL
+  } else {
+      console.log("I'm submitting ("+email+" - "+password+")");   // CNSL
       postLoginPassword(email, password);
 
     }

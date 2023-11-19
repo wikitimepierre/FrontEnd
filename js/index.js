@@ -4,48 +4,38 @@ import {postWork, deleteWork} from "./backend.js";
 import {lsWrite,lsRead, lsWriteDebugMode, testMenu, createTestMenu, createInstaListener, displayInsta, switchTestMenu} from "./localStorage.js";
 import {createModalPhotoGallery} from "./modalPhotoGallery.js";
 import {createModalAddPhoto} from "./modalAddPhoto.js";
-
 // #endregion
-// #region initializeVariables
-initializeVariables();
-async function initializeVariables() {                                              // fetch "works", read from ls "logMode", "debugMode", "token", "activeFilter"
 
-  // TODO 
+// TODO 
 // quand on delete ou ajoute un work, on relance la page avec un displaymodalphotogallery = true
 // à la fin des appels de fonction on met :
 // if displaymodalphotogallery = true then 
 // displaymodalphotogallery= false
-// call modalphotogallery()
+// call
 //TODO
 
-  let works = window.localStorage.getItem("works")                                  // fetch  "works" in localStorage "works" string
-  if (works === null) {                                                             // works don't exist ? fetch from backend (or it was in the localStorage
+// #region fetch works & categories
+  let works = window.localStorage.getItem("works");                                 // fetch  "works" in localStorage "works" string
+  let categories = window.localStorage.getItem("categories");                       // fetch  "categories" in localStorage "works" string
+
+  if (works === null) {                                                             // no works ? let's download it + categories
     const backendWorks = "http://localhost:5678/api/works";
-    const response = await fetch(backendWorks);
+    const backendCategories = "http://localhost:5678/api/categories";
+
+    let response = await fetch(backendWorks);                                     // fetch from backend (else it was in the localStorage) + same for categories
     works = await response.json();
-    lsWrite("works","string",JSON.stringify(works))
-    if (lsRead("works", "string") === null || lsRead("works", "string") === undefined || lsRead("works", "string") === "") {
-      alert ("DL NOT OK - works: "+works) // CNSL")
-    }
-  }
+    lsWrite("works", "string", JSON.stringify(works));
+    if (lsRead("works", "string") === null) {alert ("DL NOT OK - works: "+works)}   // CNSL
 
-  let categories = lsRead("categories", "string");                                  // Fetch categories in localStorage "categories"
-  if (categories === null){                                                         // categories don't exist ? fetch from backend (or it was in the localStorage)
-    const response = await fetch(backendCategories);
+    response = await fetch(backendCategories);                                      // Fetch categories in localStorage "categories"
     categories = await response.json();
-    lsWrite("categories","string",JSON.stringify(categories))
-    console.log("Downloaded 'categories' into localStorage")       // CNSL
+    lsWrite("categories","string",JSON.stringify(categories));
+    console.log("Downloaded 'categories' into localStorage");                       // CNSL
   }
-
-  if (lsRead("debugMode","boolean") === null) {                                     // if debugMode doesn't exist, set debugMode=false + activeFilter=0
-    lsWrite("debugMode",false)
-    lsWrite("activeFilter","integer","0");
-  };
-  if (lsRead("logMode","boolean") === null)                                         // if logMode doesn't exist, set it to false
-  {lsWrite("logMode","boolean", false);}
-}
-// TODO what do we do with that ?
-await new Promise(resolve => setTimeout(resolve, 1000));                            // wait a second because I've had so freaking many bugs there!
+  if (Number.isInteger(lsRead("activeFilter","integer")) === false)                 // no activeFilter ? set to 0 = "tous"
+    {lsWrite("activeFilter","integer","0")}
+  if (lsRead("debugMode","boolean") === null) {lsWrite("debugMode",false)}          // no debugMode ? set it to false
+  if (lsRead("logMode","boolean") === null) {lsWrite("logMode","boolean", false)}   // no logMode ? set it to false
 // #endregion
 
 testMenu();                                                                         // debug on/off button (on insta)
@@ -205,13 +195,16 @@ function createFilterButtons() {                                                
     }
   }
 // #endregion
+// #region show ModalPhotoGallery (after a delete or add work)
+if (lsRead("displaymodalphotogallery","boolean")) {
+  alert("displaymodalphotogallery reload");
+  localStorage.removeItem('displaymodalphotogallery');
+  createModalPhotoGallery();
+}
+// #endregion
 
 // #region // TODO List
 // xx redirect to homepage automatically if login done (window.location.href = "../index.html";)
-// TODO flash the input in red if error in login/pwd
-// TODO create modalAddPhoto
-// TODO function: delete work in works if user clicks on trash button
-// TODO centrer ma page (un espace à gauche, pas à droite)
 // TODO remove all console.logs ?
 // TODO repasser par tous les modules et verif les modules pas nécessaires à importer et les variables pas utilisées
 //HELP ' or " ?

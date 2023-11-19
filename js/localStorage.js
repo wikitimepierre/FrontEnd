@@ -83,8 +83,8 @@ export function createTestButton(text, email, password, send) {          // crea
     } else  {
       if (text === "LS Erase")
       {
-        console.log("LS Erase");                                  // CNSL
         window.localStorage.clear();
+        console.log("Local Storage Erased");                                  // CNSL
         lsWriteDebugMode(true);
         alert("localStorage cleared");
         //window.location.href = "../index.html";       // redirect to homepage

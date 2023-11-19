@@ -76,8 +76,7 @@ export function createModalAddPhoto() {
 
   fileInputInput.addEventListener('change', function() {
     let fileImage = fileInputInput.files[0];
-    console.log("yes "+fileImage.name); // CNSL
-    console.log("yes "+fileImage.path); // CNSL
+    console.log("submitting "+fileImage.path+"/"+fileImage.name); // CNSL
 
     var allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];    //png or jpg or jpeg
     if (!allowedTypes.includes(fileImage.type)) {
@@ -136,8 +135,7 @@ modalAddPhoto.appendChild(dropDownTextCategories);
 
   // create options from categories
   let categories = JSON.parse(lsRead("categories", "string"));
-  categories.forEach(function(category)
-    {console.log(category.name);
+  categories.forEach(function(category) {
     let option = document.createElement('option');
     option.value = category.id;
     option.text = category.name;
@@ -161,8 +159,6 @@ modalAddPhoto.appendChild(dropDownTextCategories);
   // #endregion
 
 // #region button "Valider"
-    console.log("avant PROBLEME"); // CNSL
-
   let buttonValidatePhoto = document.createElement("button");
   buttonValidatePhoto.innerHTML = "Valider";
   buttonValidatePhoto.classList.add("filterButtons","filterButtonsNotValid","buttonAddPhoto");
@@ -173,26 +169,21 @@ modalAddPhoto.appendChild(dropDownTextCategories);
       let photo = document.getElementById('photo').src;
       let categoryId = Number(document.getElementById('dropDownListCategories').value);
       postWork (title, photo, categoryId)    // post picture to backend
-      blackOverlay.remove();
-      createModalPhotoGallery();
     }
   });
-
-  console.log("APRES button vaider"); // CNSL
 // #endregion
 
 // TODO AEFF
-cheatFast();
+cheatFast();                                                                   // test a work submission FAST (for debug)
 
 }
 
-
-function checkValidatePhoto() {
+function checkValidatePhoto() {                                               // returns true if work can be submitted (all conditions met)
   let photo = (document.getElementById('photo').style.display === "none");
   let title = (document.getElementById('formText').value !== "");
   let category = (document.getElementById('dropDownListCategories').value !== "")
-  console.log("\nphoto: "+photo+"\ntitle: "+title+"\ncategory: "+category);
   let buttonAddPhoto = document.querySelector('.buttonAddPhoto');
+  console.log("checking... photo: "+photo+"- title: "+title+" - category: "+category);
   if (photo && title && category) {
     buttonAddPhoto.classList.add("filterButtonsValid");
     buttonAddPhoto.classList.remove("filterButtonsNotValid");
@@ -214,6 +205,6 @@ function cheatFast() {
   let title = document.getElementById('formText').value;
   let imageSrc = document.getElementById('photo').src;
   let categoryId = Number(document.getElementById('dropDownListCategories').value);
-  console.log("title: "+title+"\nimageSrc: "+imageSrc+"\ncategoryId: "+categoryId); // CNSL
+  console.log("posting:\ntitle: "+title+"\nimageSrc: "+imageSrc+"\ncategoryId: "+categoryId); // CNSL
   postWork (title, imageSrc, categoryId)    // post picture to backend
 }

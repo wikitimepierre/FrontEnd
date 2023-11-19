@@ -4,15 +4,6 @@ import {postWork, deleteWork} from "./backend.js";
 
 export function createModalPhotoGallery() {
 
-// #region create filteredWorks (works according to activeFilter+remove duplicates)
-  let activeFilter = 0; // let activeFilter = lsRead("activeFilter","integer"); // read activeFilter from localStorage
-  let works = lsRead("works","string"); // read string "works" from localStorage "works"
-  let filteredWorks = JSON.parse(works); // convert from string to array
-  if (activeFilter !== 0) {  // filter works according to activeFilter
-    filteredWorks = filteredWorks.filter(work => work.categoryId === activeFilter);}
-  filteredWorks = [...new Set(filteredWorks)]; // remove duplicates in works using Set
-  // #endregion
-
 // #region transparent background
   let blackOverlay = document.createElement("div");
   blackOverlay.classList.add("blackOverlay");
@@ -58,6 +49,15 @@ export function createModalPhotoGallery() {
   });
   // #endregion
 
+// #region create filteredWorks (works according to activeFilter+remove duplicates)
+  let activeFilter = 0; // let activeFilter = lsRead("activeFilter","integer"); // read activeFilter from localStorage
+  let works = lsRead("works","string"); // read string "works" from localStorage "works"
+  let filteredWorks = JSON.parse(works); // convert from string to array
+  if (activeFilter !== 0) {  // filter works according to activeFilter
+    filteredWorks = filteredWorks.filter(work => work.categoryId === activeFilter);}
+  filteredWorks = [...new Set(filteredWorks)]; // remove duplicates in works using Set
+  // #endregion
+
 // #region photocontainer with thumbnails
   let photoContainer = document.createElement("div");
   photoContainer.classList.add("photoContainer");
@@ -82,13 +82,11 @@ export function createModalPhotoGallery() {
     trashCan.classList.add("trashCan","fa-solid","fa-trash-can");
     trashButton.appendChild(trashCan);
     trashButton.addEventListener("click", function() {
-      alert("Effacer le projet n°" + (i+1) + " intitulé :\n" + filteredWorks[i].title);
-      deleteWork(i);
-      
-      // TODO delete works on server when answer is ok, then delete from localstorage THEN ONLY innerhtml="" et reload modalPhotoGallery
-      // TODO delete photo from gallery
+      deleteWork(i, filteredWorks[i].id, filteredWorks[i].title);
     });
+  // #endregion
     photoContainer.appendChild(thumbnailContainer);
   }
-  // #endregion
+// #endregion
+
 }
