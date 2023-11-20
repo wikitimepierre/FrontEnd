@@ -21,8 +21,8 @@ export function createModalAddPhoto() {
   arrowLeft.classList.add("arrowLeft","fa-solid","fa-arrow-left");
   modalAddPhoto.appendChild(arrowLeft);
   arrowLeft.addEventListener("click", function() {
-    blackOverlay.remove();
-    createModalPhotoGallery();
+  blackOverlay.remove();
+  createModalPhotoGallery();
   });
 // #endregion
 
@@ -30,7 +30,9 @@ export function createModalAddPhoto() {
   let closeButton = document.createElement("button");
   closeButton.classList.add("closeButton","fa-solid","fa-xmark");
   modalAddPhoto.appendChild(closeButton);
-  closeButton.addEventListener("click", function() {blackOverlay.style.display = "none"});
+  closeButton.addEventListener("click", function() {
+    window.location.reload();
+  });
 // #endregion
 
 // #region title ("Ajout Photo")
@@ -167,19 +169,19 @@ modalAddPhoto.appendChild(dropDownTextCategories);
     if (checkValidatePhoto()) {
       let title = document.getElementById('formText').value;
       let photo = document.getElementById('photo').src;
-      alert("check value of photo")
       let categoryId = Number(document.getElementById('dropDownListCategories').value);
       postWork (title, photo, categoryId)    // post picture to backend
-    }
+      blackOverlay.remove();
+      createModalPhotoGallery();
+}
   });
 // #endregion
 
 //cheatFast();                                                                   // test a work submission FAST (for debug)
 
 }
-
 function checkValidatePhoto() {                                               // returns true if work can be submitted (all conditions met)
-  
+
   let photo = (document.getElementById('photo'));
   let title = (document.getElementById('formText').value !== "");
   let category = (document.getElementById('dropDownListCategories').value !== "")

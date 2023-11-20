@@ -1,5 +1,5 @@
 
-// #region Local Storage - note - think about window.localStorage.removeItem(key); & window.localStorage.clear();
+// #region Local Storage
 export function lsRead(key, variableType) {                        // Read in localStorage
   let value = window.localStorage.getItem(key)
   switch(variableType) {
@@ -7,7 +7,7 @@ export function lsRead(key, variableType) {                        // Read in lo
       return JSON.parse(value);
     case "integer":
       return parseInt(value);
-    case "string": 
+    case "string":
       return value;
     default:
       alert('lsRead Error');
@@ -26,7 +26,7 @@ export function lsWrite(key, variableType, value) {                // Write in l
       window.localStorage.setItem(key, value);
       break;
     default:
-      alert('lsWrite Error- key:'+key+' type:'+variableType+' value:'+value);
+      alert('lsWrite Error- KEY: '+key+' TYPE: '+variableType+' VALUE: '+value);
   }
 }
 export function lsWriteDebugMode(value) {                                       // Switch debugMode on or off
@@ -52,7 +52,7 @@ export function createTestMenu() {                                       // crea
   img.setAttribute('src', path);
   img.setAttribute('class', 'archiwebosBanner');
   img.style.position = "absolute";
-  let a = ((window.innerWidth-620)/2)-30; 
+  let a = ((window.innerWidth-620)/2)-30;
   a = a + "px"
   img.style.top = "10px";
   img.style.left = a;
@@ -105,7 +105,7 @@ export function displayTestMenu() {                                      // disp
 }
 // #endregion
 
-// #region debugMode Insta icon 
+// #region debugMode Insta icon
 export function createInstaListener() {                                  // create insta listener
   let insta= document.querySelector(".insta");
   insta.addEventListener("click", function(){

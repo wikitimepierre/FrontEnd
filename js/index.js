@@ -5,16 +5,15 @@ import {lsWrite,lsRead, lsWriteDebugMode, testMenu, createTestMenu, createInstaL
 import {createModalPhotoGallery} from "./modalPhotoGallery.js";
 import {createModalAddPhoto} from "./modalAddPhoto.js";
 // #endregion
-
 // #region fetch works & categories
   let works = window.localStorage.getItem("works");                                 // fetch  "works" in localStorage "works" string
   let categories = window.localStorage.getItem("categories");                       // fetch  "categories" in localStorage "works" string
 
-  if (works === null) {                                                             // no works ? let's download it + categories
+  if (works === null || lsWrite("reloadServer","boolean")===true) {                                                             // no works ? let's download it + categories
     const backendWorks = "http://localhost:5678/api/works";
     const backendCategories = "http://localhost:5678/api/categories";
 
-    let response = await fetch(backendWorks);                                     // fetch from backend (else it was in the localStorage) + same for categories
+    let response = await fetch(backendWorks);                                       // fetch from backend (else it was in the localStorage) + same for categories
     works = await response.json();
     lsWrite("works", "string", JSON.stringify(works));
     if (lsRead("works", "string") === null) {alert ("DL NOT OK - works: "+works)}   // CNSL
@@ -23,11 +22,14 @@ import {createModalAddPhoto} from "./modalAddPhoto.js";
     categories = await response.json();
     lsWrite("categories","string",JSON.stringify(categories));
     console.log("Downloaded 'categories' into localStorage");                       // CNSL
+
+    lsWrite("reloadServer","boolean", false)                                        // so that it doesn't reload the server each time
   }
-  if (Number.isInteger(lsRead("activeFilter","integer")) === false)                 // no activeFilter ? set to 0 = "tous"
-    {lsWrite("activeFilter","integer","0")}
-  if (lsRead("debugMode","boolean") === null) {lsWrite("debugMode","boolean",false)}          // no debugMode ? set it to false
-  if (lsRead("logMode","boolean") === null) {lsWrite("logMode", false)}   // no logMode ? set it to false
+
+  let activeFilter = lsRead("activeFilter","integer");
+  if (!Number.isInteger(activeFilter)){lsWrite("activeFilter","integer","0")}       // no activeFilter ? set to 0 = "tous"
+  if (lsRead("debugMode","boolean") === null) {lsWrite("debugMode","boolean",false)}// no debugMode ? set it to false
+  if (lsRead("logMode","boolean") === null) {lsWrite("logMode","boolean", false)}   // no logMode ? set it to false
 // #endregion
 
 testMenu();                                                                         // debug on/off button (on insta)
@@ -114,7 +116,7 @@ function createH2Element(divProjets) {                                          
   // "Modifier" button element
   let button = document.createElement("button");
   button.className = "modifyButton";
-  
+
   let i = document.createElement("i");
   i.className = "fa-regular fa-pen-to-square";
   button.appendChild(i);
@@ -122,11 +124,11 @@ function createH2Element(divProjets) {                                          
   let span = document.createElement("span");
   span.textContent = " Modifier";
   button.appendChild(span);
-  
+
   if (lsRead("logMode","boolean") === true)
   {button.style.display = "block";}
   else {button.style.display = "none";}
-  
+
   h2.appendChild(button);
 
   button.addEventListener("click", async function () {
@@ -139,7 +141,7 @@ function createFilterButtons() {                                                
   let buttonNames = ["Tous", "Objets", "Appartements", "Hôtels restaurants"];
   let works = lsRead("works","string");
   works = JSON.parse(works);
-  
+
   let filters = document.querySelector(".filters");
   let activeFilter = lsRead("activeFilter","integer");
 
@@ -154,7 +156,7 @@ function createFilterButtons() {                                                
     }else{
       button.classList.add("filterButtonsInactive");                                // add class filterButtonsInactive
     }
-    button.addEventListener("click", async function () {                            // listener on each filterButton 
+    button.addEventListener("click", async function () {                            // listener on each filterButton
       let filteredWorks = buildFilteredWorks(i, works);                             // create filteredWorks according to filter
       lsWrite("activeFilter","integer", String(i));
       displayfilteredWorks(filteredWorks);                                          // display this filteredWorks
@@ -187,12 +189,16 @@ function createFilterButtons() {                                                
     }
   }
 // #endregion
-// #region show ModalPhotoGallery (after a delete or add work)
-if (lsRead("displaymodalphotogallery","boolean")) {
-  localStorage.removeItem('displaymodalphotogallery');
-  createModalPhotoGallery();
-}
-// #endregion
+
+
+
+
+
+
+
+
+
+
 
 // #region // TODO List
 // xx redirect to homepage automatically if login done (window.location.href = "../index.html";)
@@ -203,7 +209,7 @@ if (lsRead("displaymodalphotogallery","boolean")) {
 
 // Reminders for extension todo tree
 // TODO
-// xx 
+// xx
 // BUG has to be solved
 // HELP needs research/help
 // CNSL console.log to be removed ?
