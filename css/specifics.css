@@ -5,8 +5,9 @@
   color: inherit;
 }
 
-.instagram {
+.insta {
   height: 22px;
+  cursor: pointer;
 }
 
 nav ul {
@@ -71,10 +72,6 @@ li:hover {
   right: -22px;
 }
 
-.archiwebosBanner {
-  width: 10%;
-}
-
 #contact {
   width: 50%;
   margin: auto;
@@ -131,4 +128,4 @@ footer nav ul {
   display: flex;
   justify-content: flex-end;
   margin: 2em;
-}
+}/*# sourceMappingURL=specifics.css.map */

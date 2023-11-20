@@ -66,14 +66,14 @@ export function createTestMenu() {                                       // crea
   createTestButton("wrong email", "sophie.blue@ltest.com", "S0phie", false);
   createTestButton("Good", "sophie.bluel@test.tld", "S0phie", false);
   createTestButton("LS Erase", "", "", true);
+  createTestButton("ReloadServer", "", "", true);
 }
 export function createTestButton(text, email, password, send) {          // create test buttons needed in test menu
-  //let archiwebosBanner = document.querySelector(".archiwebosBanner");
   let testMenu = document.getElementById("testMenu");
   let testButton = document.createElement("button");
   testButton.textContent = text;
   testButton.style.position = "relative";
-    testButton.style.top = "-70px"; testButton.style.left = "220px";
+  testButton.style.top = "-70px"; testButton.style.left = "165px";
   if (send === false) {testButton.style.top = "-100px"; testButton.style.left = "385px";}
   testMenu.appendChild(testButton);
   testButton.addEventListener("click", function(){
@@ -88,6 +88,8 @@ export function createTestButton(text, email, password, send) {          // crea
         lsWriteDebugMode(true);
         alert("localStorage cleared");
         //window.location.href = "../index.html";       // redirect to homepage
+      } else if (text === "ReloadServer") {
+        reloadServer();
       } else {
         lsWriteDebugMode(false)
       }
@@ -132,3 +134,7 @@ export function pointPath() {                                                  /
   {return ""}
 }
 // #endregion
+function reloadServer() {
+	lsWrite("reloadServer","boolean", true)												// so that the server is reloaded next time I get back to the homapage
+	window.location.reload();																		// refresh page that will reload also modalPhotoGallery
+}

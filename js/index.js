@@ -2,32 +2,40 @@
 import {displayFilterButtonsColors,buildFilteredWorks,displayfilteredWorks} from "./works.js";
 import {postWork, deleteWork} from "./backend.js";
 import {lsWrite,lsRead, lsWriteDebugMode, testMenu, createTestMenu, createInstaListener, displayInsta, switchTestMenu} from "./localStorage.js";
-import {createModalPhotoGallery} from "./modalPhotoGallery.js";
+import {createModalPhotoGallery,PhotoGallery} from "./modalPhotoGallery.js";
 import {createModalAddPhoto} from "./modalAddPhoto.js";
 // #endregion
 // #region fetch works & categories
   let works = window.localStorage.getItem("works");                                 // fetch  "works" in localStorage "works" string
   let categories = window.localStorage.getItem("categories");                       // fetch  "categories" in localStorage "works" string
+  let reloadServer = lsRead("reloadServer","boolean");                              // fetch  "reloadServer" from localStorage
 
-  if (works === null || lsWrite("reloadServer","boolean")===true) {                                                             // no works ? let's download it + categories
+  if (works === null || reloadServer === true) {                                    // let's download works & categories
+
+    if (works === null) {                                                           // CNSL
+      alert("server reloaded because works = null")                                 // CNSL
+    }                                                                               // CNSL
+    if (reloadServer === true) {
+      alert("server reloaded because reloadServer = true")                          // CNSL
+      lsWrite("reloadServer","boolean", false)                                      // so that it doesn't reload the server each time
+    }
+
     const backendWorks = "http://localhost:5678/api/works";
-    const backendCategories = "http://localhost:5678/api/categories";
-
     let response = await fetch(backendWorks);                                       // fetch from backend (else it was in the localStorage) + same for categories
     works = await response.json();
     lsWrite("works", "string", JSON.stringify(works));
     if (lsRead("works", "string") === null) {alert ("DL NOT OK - works: "+works)}   // CNSL
 
+    const backendCategories = "http://localhost:5678/api/categories";
     response = await fetch(backendCategories);                                      // Fetch categories in localStorage "categories"
     categories = await response.json();
     lsWrite("categories","string",JSON.stringify(categories));
     console.log("Downloaded 'categories' into localStorage");                       // CNSL
 
-    lsWrite("reloadServer","boolean", false)                                        // so that it doesn't reload the server each time
   }
 
   let activeFilter = lsRead("activeFilter","integer");
-  if (!Number.isInteger(activeFilter)){lsWrite("activeFilter","integer","0")}       // no activeFilter ? set to 0 = "tous"
+  if (!Number.isInteger(activeFilter)) {lsWrite("activeFilter","integer","0")}      // no activeFilter ? set to 0 = "tous"
   if (lsRead("debugMode","boolean") === null) {lsWrite("debugMode","boolean",false)}// no debugMode ? set it to false
   if (lsRead("logMode","boolean") === null) {lsWrite("logMode","boolean", false)}   // no logMode ? set it to false
 // #endregion
@@ -37,6 +45,7 @@ displayLoginLogout();                                                           
 createSectionProjets();                                                             // create HTML section "projets"
 createFilterButtons();                                                              // create filterButtons
 createGallery();                                                                    // create gallery of "projets" (works)
+displaymodalPhotoGallery();                                                         // display modalPhotoGallery if needed
 
 // #region displayLoginLogout
 function displayLoginLogout() {                                                     // display login/logout button}
@@ -189,7 +198,14 @@ function createFilterButtons() {                                                
     }
   }
 // #endregion
-
+// #region display modalPhotoGallery
+function displaymodalPhotoGallery() {
+  if (lsRead("displaymodalPhotoGallery", "boolean") === true) {
+    lsWrite("displaymodalPhotoGallery", "boolean", false);
+    createModalPhotoGallery();
+  }
+}
+// #endregion
 
 
 
@@ -204,7 +220,7 @@ function createFilterButtons() {                                                
 // xx redirect to homepage automatically if login done (window.location.href = "../index.html";)
 // TODO remove all console.logs ?
 // TODO repasser par tous les modules et verif les modules pas nécessaires à importer et les variables pas utilisées
-//TODO simplifier tous les appels à lsRead et lsWrite (enlever le type) + au début de ces fonctions, checker le nom de la variable et en déduire le type
+// TODO simplifier tous les appels à lsRead et lsWrite (enlever le type) + au début de ces fonctions, checker le nom de la variable et en déduire le type
 // HELP ' or " ?
 
 // Reminders for extension todo tree

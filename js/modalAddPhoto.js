@@ -171,8 +171,6 @@ modalAddPhoto.appendChild(dropDownTextCategories);
       let photo = document.getElementById('photo').src;
       let categoryId = Number(document.getElementById('dropDownListCategories').value);
       postWork (title, photo, categoryId)    // post picture to backend
-      blackOverlay.remove();
-      createModalPhotoGallery();
 }
   });
 // #endregion

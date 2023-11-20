@@ -120,37 +120,124 @@
   left: 4px;
 }
 
-.buttonBlueFrame {
-  background-color: rgb(232, 241, 246);
-}
-
-.textBlueFrame {
-  font-size: smaller;
-}
-
 .blueFrame {
   display: flex;
   flex-direction: column;
   justify-content: center;
   position: absolute;
-  width: 470px;
+  width: 465px;
+  left: 80px;
   height: 190px;
   top: 120px;
-  right: 80px;
   background-color: rgb(232, 241, 246);
   border: none;
-  font-Size: 1.5em;
+  font-Size: 1.2em;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .faImage {
   position: absolute;
   top: 20px;
-  right: 0px;
+  left: 190px;
   width: 83px;
   height: 75px;
+  max-width: 100%;
+  max-height: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
 }
 
-.filterButtonsAjout {
+.buttonBlueFrame {
+  position: absolute;
+  top: 20px;
+  left: 190px;
   background-color: rgb(203, 214, 220);
   color: rgb(54, 106, 137);
+  border: none;
 }
+
+.textBlueFrame {
+  position: absolute;
+  top: 160px;
+  left: 190px;
+  font-size: 0.5em;
+}
+
+.filterButtonsNotValid {
+  background-color: rgb(160, 161, 163);
+  /*background-color: #1D6154;*/
+  color: rgb(225, 236, 241);
+  border: none;
+  width: 220px;
+}
+
+.filterButtonsValid {
+  /*background-color: rgb(160, 161, 163);*/
+  background-color: #1D6154;
+  color: rgb(225, 236, 241);
+  border: none;
+  width: 220px;
+}
+
+.dropDown {
+  position: absolute;
+  height: 50px;
+  left: 80px;
+  width: 465px;
+  text-align: left;
+  border: none;
+}
+
+.FormTitre {
+  font-size: 1em;
+  top: 335px;
+}
+
+.formForm {
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+  font-size: 1.2em;
+  top: 365px;
+}
+
+.dropDownTextCategories {
+  font-size: 1em;
+  top: 450px;
+}
+
+.dropDownListCategories {
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+  font-size: 1.2em;
+  top: 480px;
+}
+
+.fileInputInput {
+  position: absolute;
+  left: 140px;
+  top: 105px;
+  width: 190px;
+  height: 50px;
+  cursor: pointer;
+  background-color: rgb(185, 197, 204);
+  opacity: 0;
+  z-index: 1;
+}
+
+.fileInputButton {
+  position: absolute;
+  font-size: 1em;
+  left: 145px;
+  top: 110px;
+  width: 180px;
+  height: 40px;
+  border: none;
+  border-radius: 25px;
+  color: rgb(7, 59, 80);
+  background-color: rgb(185, 197, 204);
+  cursor: pointer;
+}
+
+.testonly {
+  background-color: red;
+}/*# sourceMappingURL=modal.css.map */

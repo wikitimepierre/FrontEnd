@@ -443,14 +443,14 @@ footer nav ul {
   background-color: rgb(160, 161, 163);
   /*background-color: #1D6154;*/
   color: rgb(225, 236, 241);
-  border:none;  
+  border:none;
   width: 220px;
 }
 .filterButtonsValid {
   /*background-color: rgb(160, 161, 163);*/
   background-color: #1D6154;
   color: rgb(225, 236, 241);
-  border:none;  
+  border:none;
   width: 220px;
 }
 .dropDown {
@@ -510,4 +510,3 @@ footer nav ul {
   max-height: 100%;
   object-fit: contain;
 }
-
