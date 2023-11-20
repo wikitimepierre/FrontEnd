@@ -13,10 +13,10 @@ import {createModalAddPhoto} from "./modalAddPhoto.js";
   if (works === null || reloadServer === true) {                                    // let's download works & categories
 
     if (works === null) {                                                           // CNSL
-      alert("server reloaded because works = null")                                 // CNSL
+      console.log("server reloaded because works = null")                                 // CNSL
     }                                                                               // CNSL
     if (reloadServer === true) {
-      alert("server reloaded because reloadServer = true")                          // CNSL
+      console.log("server reloaded because reloadServer = true")                    // CNSL
       lsWrite("reloadServer","boolean", false)                                      // so that it doesn't reload the server each time
     }
 

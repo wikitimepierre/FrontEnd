@@ -94,7 +94,7 @@ export async function deleteWork(i, id, title) {																	 // Delete a wo
 	if (token === null || token === undefined || token === "") {
 		alert("Pas connecté")
 	} else {
-		await fetch(backendWorks + "/" + i, {
+		await fetch(backendWorks + "/" + id, {
 			method: "DELETE",
 			headers: {
 				"Content-Type": "application/json",
@@ -117,7 +117,7 @@ export async function deleteWork(i, id, title) {																	 // Delete a wo
 					works = JSON.stringify(works)
 					lsWrite("works","string",works);															// Store the updated array back in localStorage
 
-					document.querySelector(".photoContainer").remove();				// rebuild photoContainer (to redisplay the works thumbnails)
+					document.querySelector(".photoContainer").remove();					// rebuild photoContainer (to redisplay the works thumbnails)
 					PhotoGallery();
 
 //					reloadServer();																								// so that the server is reloaded next time I get back to the homapage
