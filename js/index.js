@@ -1,10 +1,10 @@
 // #region js files import
-import {displayFilterButtonsColors,buildFilteredWorks,displayfilteredWorks} from "./works.js";
-import {postWork, deleteWork} from "./backend.js";
-import {lsWrite,lsRead, lsWriteDebugMode, testMenu, createTestMenu, createInstaListener, displayInsta, switchTestMenu} from "./localStorage.js";
-import {createModalPhotoGallery,PhotoGallery} from "./modalPhotoGallery.js";
-import {createModalAddPhoto} from "./modalAddPhoto.js";
+import {testMenu,displayFilterButtonsColors,buildFilteredWorks,displayfilteredWorks,lsWrite,lsRead, lsWriteDebugMode,createModalPhotoGallery,PhotoGallery,createModalAddPhoto,postWork, deleteWork} from "./other.js";
 // #endregion
+
+
+
+
 // #region fetch works & categories
   let works = window.localStorage.getItem("works");                                 // fetch  "works" in localStorage "works" string
   let categories = window.localStorage.getItem("categories");                       // fetch  "categories" in localStorage "works" string
@@ -12,9 +12,7 @@ import {createModalAddPhoto} from "./modalAddPhoto.js";
 
   if (works === null || reloadServer === true) {                                    // let's download works & categories
 
-    if (works === null) {                                                           // CNSL
-      console.log("server reloaded because works = null")                                 // CNSL
-    }                                                                               // CNSL
+    if (works === null) {console.log("server reloaded because works = null")}       // CNSL
     if (reloadServer === true) {
       console.log("server reloaded because reloadServer = true")                    // CNSL
       lsWrite("reloadServer","boolean", false)                                      // so that it doesn't reload the server each time
@@ -45,7 +43,8 @@ displayLoginLogout();                                                           
 createSectionProjets();                                                             // create HTML section "projets"
 createFilterButtons();                                                              // create filterButtons
 createGallery();                                                                    // create gallery of "projets" (works)
-displaymodalPhotoGallery();                                                         // display modalPhotoGallery if needed
+//displayModalPhotoGallery();                                                       // display modalPhotoGallery FAST (for debug)
+//displayModalAddPhoto();                                                           // test addPhoto FAST (for debug)
 
 // #region displayLoginLogout
 function displayLoginLogout() {                                                     // display login/logout button}
@@ -198,21 +197,29 @@ function createFilterButtons() {                                                
     }
   }
 // #endregion
-// #region display modalPhotoGallery
-function displaymodalPhotoGallery() {
+// #region debug modalPhotoGallery & ModalAddPhoto
+function displayModalPhotoGallery() {
   if (lsRead("displaymodalPhotoGallery", "boolean") === true) {
     lsWrite("displaymodalPhotoGallery", "boolean", false);
     createModalPhotoGallery();
   }
 }
+function displayModalAddPhoto() {                                                           // test a work submission FAST (for debug)
+  let photo = document.createElement("img");
+  photo.setAttribute('id', 'photo')
+  photo.classList.add("photo");
+  document.createElement("blueFrame").appendChild(photo);
+
+  document.getElementById('photo').src = "./assets/images/testi.png"
+  document.getElementById('formText').value = "a";
+  document.getElementById('dropDownListCategories').value = 1;
+  let title = document.getElementById('formText').value;
+  let imageSrc = document.getElementById('photo').src;
+  let categoryId = Number(document.getElementById('dropDownListCategories').value);
+  console.log("posting:\ntitle: "+title+"\nimageSrc: "+imageSrc+"\ncategoryId: "+categoryId); // CNSL
+  postWork (title, imageSrc, categoryId)    // post picture to backend
+}
 // #endregion
-
-
-
-
-
-
-
 
 
 
@@ -221,9 +228,10 @@ function displaymodalPhotoGallery() {
 // TODO remove all console.logs ?
 // TODO repasser par tous les modules et verif les modules pas nécessaires à importer et les variables pas utilisées
 // TODO simplifier tous les appels à lsRead et lsWrite (enlever le type) + au début de ces fonctions, checker le nom de la variable et en déduire le type
-// HELP ' or " ?
 
-// Reminders for extension todo tree
+// HELP ' or " ?
+// #endregion
+//  #region Reminders for extension todo tree
 // TODO
 // xx
 // BUG has to be solved

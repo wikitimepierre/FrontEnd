@@ -1,7 +1,9 @@
+
 import {lsWrite,lsRead, lsWriteDebugMode} from "./localStorage.js";
 import {createModalAddPhoto} from "./modalAddPhoto.js";
 import {postWork, deleteWork} from "./backend.js";
 
+// #region Modal PhotoGallery
 export function createModalPhotoGallery() {
 // #region transparent background
   let blackOverlay = document.createElement("div");
@@ -46,7 +48,6 @@ export function createModalPhotoGallery() {
 // #endregion
   PhotoGallery();
 }
-
 export function PhotoGallery() {
 // #region create filteredWorks (works with no duplicates)
   let works = lsRead("works","string"); // read string "works" from localStorage "works"
@@ -86,3 +87,4 @@ export function PhotoGallery() {
   // #endregion
   }
 }
+// #endregion

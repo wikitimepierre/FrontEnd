@@ -2,6 +2,7 @@ import {lsWrite,lsRead, lsWriteDebugMode} from "./localStorage.js";
 import {createModalPhotoGallery} from "./modalPhotoGallery.js";
 import {postWork, deleteWork} from "./backend.js";
 
+// #region Modal AddPhoto
 export function createModalAddPhoto() {
 
 // #region blackOverlay (translucid background)
@@ -194,6 +195,7 @@ function checkValidatePhoto() {                                               //
     buttonAddPhoto.classList.remove("filterButtonsValid");
   }
 }
+// #endregion
 function cheatFast() {                                                           // test a work submission FAST (for debug)
   let photo = document.createElement("img");
   photo.setAttribute('id', 'photo')

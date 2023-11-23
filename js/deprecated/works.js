@@ -1,5 +1,6 @@
 import {lsWrite,lsRead, lsWriteDebugMode} from "./localStorage.js";
 
+// #region Works : buildFilteredWorks, displayfilteredWorks, displayFilterButtonsColors
 export function buildFilteredWorks(filter, filteredWorks) {
   if (filter > 0) {                                                            // else nothing changes since filteredWorks = works
     filteredWorks = filteredWorks.filter(work => work.categoryId === filter);  // filter works according to activeFilter
@@ -35,3 +36,4 @@ export function displayFilterButtonsColors(activeFilter) {
     else{filterButtons[i].classList.add("filterButtonsInactive");}            // add class filterButtonsInactive
   }
 }
+// #endregion

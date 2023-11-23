@@ -1,6 +1,5 @@
-
 // #region Local Storage
-export function lsRead(key, variableType) {                        // Read in localStorage
+export function lsRead(key, variableType) {                                   // Read in localStorage
   let value = window.localStorage.getItem(key)
   switch(variableType) {
     case "boolean":
@@ -14,7 +13,7 @@ export function lsRead(key, variableType) {                        // Read in lo
       return null;
   }
 }
-export function lsWrite(key, variableType, value) {                // Write in localStorage
+export function lsWrite(key, variableType, value) {                           // Write in localStorage
   switch(variableType) {
     case "boolean":
       window.localStorage.setItem(key, JSON.stringify(value));
@@ -29,21 +28,20 @@ export function lsWrite(key, variableType, value) {                // Write in l
       alert('lsWrite Error- KEY: '+key+' TYPE: '+variableType+' VALUE: '+value);
   }
 }
-export function lsWriteDebugMode(value) {                                       // Switch debugMode on or off
+export function lsWriteDebugMode(value) {                                     // Switch debugMode on or off
   lsWrite("debugMode", "boolean", value);
   displayTestMenu()
   displayInsta()
 }
 // #endregion
-
 // #region Test Menu
-export function testMenu() {                                            // initialize insta & testMenu
-  createTestMenu();                                                     // create test menu but don't display it
-  createInstaListener();                                                // create instabutton listener
-  displayTestMenu()                                                      // display testmenu or not (according to debugMode)
-  displayInsta()                                                         // display insta or not (according to debugMode)
+export function testMenu() {                                                  // initialize insta & testMenu
+  createTestMenu();                                                           // create test menu but don't display it
+  createInstaListener();                                                      // create instabutton listener
+  displayTestMenu()                                                           // display testmenu or not (according to debugMode)
+  displayInsta()                                                              // display insta or not (according to debugMode)
 }
-export function createTestMenu() {                                       // create test menu (banner+buttons) ... don't display it yet
+export function createTestMenu() {                                            // create test menu (banner+buttons) ... don't display it yet
   let testMenu = document.getElementById("testMenu");
   testMenu.style.display = "none";
 
@@ -68,7 +66,7 @@ export function createTestMenu() {                                       // crea
   createTestButton("LS Erase", "", "", true);
   createTestButton("ReloadServer", "", "", true);
 }
-export function createTestButton(text, email, password, send) {          // create test buttons needed in test menu
+export function createTestButton(text, email, password, send) {               // create test buttons needed in test menu
   let testMenu = document.getElementById("testMenu");
   let testButton = document.createElement("button");
   testButton.textContent = text;
@@ -87,7 +85,7 @@ export function createTestButton(text, email, password, send) {          // crea
         console.log("Local Storage Erased");                                  // CNSL
         lsWriteDebugMode(true);
         alert("localStorage cleared");
-        //window.location.href = "../index.html";       // redirect to homepage
+        //window.location.href = "../index.html";                             // redirect to homepage
       } else if (text === "ReloadServer") {
         reloadServer();
       } else {
@@ -97,7 +95,7 @@ export function createTestButton(text, email, password, send) {          // crea
     }
   });
 }
-export function displayTestMenu() {                                      // display debugmenu or not (according to debugMode)
+export function displayTestMenu() {                                            // display debugmenu or not (according to debugMode)
   let testMenu = document.getElementById("testMenu");
   if (lsRead("debugMode", "boolean")===false) {
     testMenu.style.display = "none";
@@ -105,23 +103,26 @@ export function displayTestMenu() {                                      // disp
     testMenu.style.display = "block";
   }
 }
+export function reloadServer() {
+	lsWrite("reloadServer","boolean", true)												               // so that the server is reloaded next time I get back to the homapage
+	window.location.reload();																		                 // refresh page that will reload also modalPhotoGallery
+}
 // #endregion
-
 // #region debugMode Insta icon
-export function createInstaListener() {                                  // create insta listener
+export function createInstaListener() {                                        // create insta listener
   let insta= document.querySelector(".insta");
   insta.addEventListener("click", function(){
     switchTestMenu()
   });
 }
-export function switchTestMenu() {                                       // switch debugMode on or off
+export function switchTestMenu() {                                             // switch debugMode on or off
   if (lsRead("debugMode", "boolean")===true) {
     lsWriteDebugMode(false)
   } else {
     lsWriteDebugMode(true)
   }
 }
-export function displayInsta() {                                         // display insta or not (according to debugMode)
+export function displayInsta() {                                               // display insta or not (according to debugMode)
   let insta= document.querySelector(".insta");
   if (lsRead("debugMode", "boolean")===true)
     {insta.src = pointPath() + "./assets/icons/instagramdebug.png"}
@@ -134,7 +135,3 @@ export function pointPath() {                                                  /
   {return ""}
 }
 // #endregion
-function reloadServer() {
-	lsWrite("reloadServer","boolean", true)												// so that the server is reloaded next time I get back to the homapage
-	window.location.reload();																		// refresh page that will reload also modalPhotoGallery
-}

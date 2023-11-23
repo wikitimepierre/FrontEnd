@@ -1,12 +1,11 @@
-// you only arrive here if you are not LOGGED IN
-import {lsWrite,lsRead, lsWriteDebugMode, testMenu} from "./localStorage.js";
-import {postLoginPassword} from "./backend.js";
-import {createInstaListener, displayInsta, switchTestMenu} from "./localStorage.js";
+// #region js files import
+import {testMenu, postLoginPassword} from "./other.js";
+// #endregion
 
 testMenu();                                                      // debug on/off button (on insta)
 submitFormListener();                                            // listener on submit button that submits the form
 
-// #region FormListener
+// #region FormListener (for email/password validate button)
 function submitFormListener() {                                   // listener on submit button
   let formSubmitButton = document.querySelector("#contact form");
   formSubmitButton.addEventListener("submit", function(event) {
