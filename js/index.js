@@ -1,11 +1,9 @@
-// #region js files import
-import {testMenu,displayFilterButtonsColors,buildFilteredWorks,displayfilteredWorks,lsWrite,lsRead, lsWriteDebugMode,createModalPhotoGallery,PhotoGallery,createModalAddPhoto,postWork, deleteWork} from "./other.js";
+// #region 1) js files import
+import {testMenu,displayFilterButtonsColors,buildFilteredWorks,displayfilteredWorks,lsWrite,lsRead,createModalPhotoGallery,postWork} from "./other.js";
 // #endregion
 
 
-
-
-// #region fetch works & categories
+// #region 2) fetch works & categories
   let works = window.localStorage.getItem("works");                                 // fetch  "works" in localStorage "works" string
   let categories = window.localStorage.getItem("categories");                       // fetch  "categories" in localStorage "works" string
   let reloadServer = lsRead("reloadServer","boolean");                              // fetch  "reloadServer" from localStorage
@@ -38,6 +36,8 @@ import {testMenu,displayFilterButtonsColors,buildFilteredWorks,displayfilteredWo
   if (lsRead("logMode","boolean") === null) {lsWrite("logMode","boolean", false)}   // no logMode ? set it to false
 // #endregion
 
+
+// #region 3) display web page
 testMenu();                                                                         // debug on/off button (on insta)
 displayLoginLogout();                                                               // display login/logout button
 createSectionProjets();                                                             // create HTML section "projets"
@@ -45,185 +45,188 @@ createFilterButtons();                                                          
 createGallery();                                                                    // create gallery of "projets" (works)
 //displayModalPhotoGallery();                                                       // display modalPhotoGallery FAST (for debug)
 //displayModalAddPhoto();                                                           // test addPhoto FAST (for debug)
-
-// #region displayLoginLogout
-function displayLoginLogout() {                                                     // display login/logout button}
-  let loginNav = document.getElementById("loginNav");                               // grab loginNav
-  deleteLinksAndListeners(loginNav)                                                 // remove listener & href attribute loginNav
-
-  if (lsRead("logMode","boolean") === true) {                                       // if logMode = true, change to logout + modifyButton + filterbuttons + works
-    let loginNav = document.getElementById("loginNav");                             // grab loginNav
-    loginNav.innerText = "logout";                                                  // write logout
-    loginNav.addEventListener("click",function() {                                  // on click = logout, erase lStorage, logMode= false and reload homepage
-      window.localStorage.clear();
-      lsWrite("logMode","boolean",false);
-      window.location.href = "../index.html";
-    });
-  } else {
-    loginNav.innerText = "login";                                                   // then write login
-    loginNav.setAttribute("href", "./html/login.html");                             // set href to login.html
-  }
-}
-function deleteLinksAndListeners(button) {
-    let clone = button.cloneNode(true);
-    button.parentNode.replaceChild(clone, button);
-}
 // #endregion
-// #region HTML Code
-//<section id="sectionProjets">
 
-//  <div class="divProjects">
-//    <h2 class="h2MesProjets">Mes Projets</h2>
-//    <button id="modifyButton"><i class="fa-regular fa-pen-to-square"></i>Modifier</button>
-//  </div>
-//  <br><br>
 
-//  <div class="filters">
-//    <button class="filterButtons">Tous</button>
-//    <button class="filterButtons">Objets</button>
-//    <button class="filterButtons">Appartements</button>
-//    <button class="filterButtons">Hôtels & restaurants</button>
-//  </div>
+// #region 4) functions
+  // #region displayLoginLogout
+  function displayLoginLogout() {                                                     // display login/logout button}
+    let loginNav = document.getElementById("loginNav");                               // grab loginNav
+    deleteLinksAndListeners(loginNav)                                                 // remove listener & href attribute loginNav
 
-//  <div class="gallery">
-//  </div>
-//</section>
-// #endregion
-// #region createSectionProjets
-function createSectionProjets() {
-  // "sectionProjets" section element
-  let sectionProjets = document.querySelector("#sectionProjets");
-
-    // "divProjets" div element
-    let divProjets = document.createElement("div");
-    divProjets.className = "divProjets";
-    sectionProjets.appendChild(divProjets);
-    createH2Element(divProjets);
-
-    // 2 lines
-    sectionProjets.appendChild(document.createElement("br")); //TODO verify if I need this
-    sectionProjets.appendChild(document.createElement("br")); //TODO verify if I need this
-
-    // "filters" div element
-    let filters = document.createElement("div");
-    filters.className = "filters";
-    sectionProjets.appendChild(filters);
-
-    // "gallery" div element
-    let gallery = document.createElement("div");
-    gallery.className = "gallery";
-    sectionProjets.appendChild(gallery);
-}
-function createH2Element(divProjets) {                                              // create h2 "Mes projets" + button "Modifier" (if logMode=true)
-  // "Mes Projets" h2 element
-  let h2 = document.createElement("h2");
-  h2.className = "h2MesProjets";
-  h2.textContent = "Mes Projets";
-  divProjets.appendChild(h2);
-
-  // "Modifier" button element
-  let button = document.createElement("button");
-  button.className = "modifyButton";
-
-  let i = document.createElement("i");
-  i.className = "fa-regular fa-pen-to-square";
-  button.appendChild(i);
-
-  let span = document.createElement("span");
-  span.textContent = " Modifier";
-  button.appendChild(span);
-
-  if (lsRead("logMode","boolean") === true)
-  {button.style.display = "block";}
-  else {button.style.display = "none";}
-
-  h2.appendChild(button);
-
-  button.addEventListener("click", async function () {
-    createModalPhotoGallery();
-  });
-}
-// #endregion
-// #region createFilterButtons
-function createFilterButtons() {                                                    // filterButtons
-  let buttonNames = ["Tous", "Objets", "Appartements", "Hôtels restaurants"];
-  let works = lsRead("works","string");
-  works = JSON.parse(works);
-
-  let filters = document.querySelector(".filters");
-  let activeFilter = lsRead("activeFilter","integer");
-
-  for (let i = 0; i < buttonNames.length; i++) {
-    let button = document.createElement("button");
-    button.textContent = buttonNames[i];
-
-    button.className = "";                                                          // remove all classes
-    button.className = "filterButtons";
-    if (i === activeFilter) {
-      button.classList.add("filterButtonsActive");                                  // add class filterButtonsActive
-    }else{
-      button.classList.add("filterButtonsInactive");                                // add class filterButtonsInactive
+    if (lsRead("logMode","boolean") === true) {                                       // if logMode = true, change to logout + modifyButton + filterbuttons + works
+      let loginNav = document.getElementById("loginNav");                             // grab loginNav
+      loginNav.innerText = "logout";                                                  // write logout
+      loginNav.addEventListener("click",function() {                                  // on click = logout, erase lStorage, logMode= false and reload homepage
+        window.localStorage.clear();
+        lsWrite("logMode","boolean",false);
+        window.location.href = "../index.html";
+      });
+    } else {
+      loginNav.innerText = "login";                                                   // then write login
+      loginNav.setAttribute("href", "./html/login.html");                             // set href to login.html
     }
-    button.addEventListener("click", async function () {                            // listener on each filterButton
-      let filteredWorks = buildFilteredWorks(i, works);                             // create filteredWorks according to filter
-      lsWrite("activeFilter","integer", String(i));
-      displayfilteredWorks(filteredWorks);                                          // display this filteredWorks
-      displayFilterButtonsColors(i);                                                // change filterbuttons colors
-    });
-    filters.appendChild(button);
   }
-}
-// #endregion
-// #region createGallery
-  function createGallery() {                                                          // gallery
+  function deleteLinksAndListeners(button) {
+      let clone = button.cloneNode(true);
+      button.parentNode.replaceChild(clone, button);
+  }
+  // #endregion
+  // #region HTML Code
+  //<section id="sectionProjets">
+
+  //  <div class="divProjects">
+  //    <h2 class="h2MesProjets">Mes Projets</h2>
+  //    <button id="modifyButton"><i class="fa-regular fa-pen-to-square"></i>Modifier</button>
+  //  </div>
+  //  <br><br>
+
+  //  <div class="filters">
+  //    <button class="filterButtons">Tous</button>
+  //    <button class="filterButtons">Objets</button>
+  //    <button class="filterButtons">Appartements</button>
+  //    <button class="filterButtons">Hôtels & restaurants</button>
+  //  </div>
+
+  //  <div class="gallery">
+  //  </div>
+  //</section>
+  // #endregion
+  // #region createSectionProjets
+  function createSectionProjets() {
+    // "sectionProjets" section element
+    let sectionProjets = document.querySelector("#sectionProjets");
+
+      // "divProjets" div element
+      let divProjets = document.createElement("div");
+      divProjets.className = "divProjets";
+      sectionProjets.appendChild(divProjets);
+      createH2Element(divProjets);
+
+      // 2 lines
+      sectionProjets.appendChild(document.createElement("br")); //TODO verify if I need this
+      sectionProjets.appendChild(document.createElement("br")); //TODO verify if I need this
+
+      // "filters" div element
+      let filters = document.createElement("div");
+      filters.className = "filters";
+      sectionProjets.appendChild(filters);
+
+      // "gallery" div element
+      let gallery = document.createElement("div");
+      gallery.className = "gallery";
+      sectionProjets.appendChild(gallery);
+  }
+  function createH2Element(divProjets) {                                              // create h2 "Mes projets" + button "Modifier" (if logMode=true)
+    // "Mes Projets" h2 element
+    let h2 = document.createElement("h2");
+    h2.className = "h2MesProjets";
+    h2.textContent = "Mes Projets";
+    divProjets.appendChild(h2);
+
+    // "Modifier" button element
+    let button = document.createElement("button");
+    button.className = "modifyButton";
+
+    let i = document.createElement("i");
+    i.className = "fa-regular fa-pen-to-square";
+    button.appendChild(i);
+
+    let span = document.createElement("span");
+    span.textContent = " Modifier";
+    button.appendChild(span);
+
+    if (lsRead("logMode","boolean") === true)
+    {button.style.display = "block";}
+    else {button.style.display = "none";}
+
+    h2.appendChild(button);
+
+    button.addEventListener("click", async function () {
+      createModalPhotoGallery();
+    });
+  }
+  // #endregion
+  // #region createFilterButtons
+  function createFilterButtons() {                                                    // filterButtons
+    let buttonNames = ["Tous", "Objets", "Appartements", "Hôtels restaurants"];
     let works = lsRead("works","string");
     works = JSON.parse(works);
-    let gallery = document.querySelector(".gallery");
-    gallery.innerHTML = "";
 
-    for (let i = 0; i < works.length; i++) {
-      const figure = document.createElement("figure");                                // <figure>
+    let filters = document.querySelector(".filters");
+    let activeFilter = lsRead("activeFilter","integer");
 
-      const img = document.createElement("img");                                      // <img src="assets/images/abajour-tahina.png" alt="Abajour Tahina">
-      img.setAttribute("src", works[i].imageUrl);
-      img.setAttribute("alt", works[i].title);
+    for (let i = 0; i < buttonNames.length; i++) {
+      let button = document.createElement("button");
+      button.textContent = buttonNames[i];
 
-      const figcaption = document.createElement("figcaption");                        // <figcaption>Abajour Tahina</figcaption>
-      figcaption.textContent = works[i].title;
-
-      figure.appendChild(img);
-      figure.appendChild(figcaption);
-      gallery.appendChild(figure);
+      button.className = "";                                                          // remove all classes
+      button.className = "filterButtons";
+      if (i === activeFilter) {
+        button.classList.add("filterButtonsActive");                                  // add class filterButtonsActive
+      }else{
+        button.classList.add("filterButtonsInactive");                                // add class filterButtonsInactive
+      }
+      button.addEventListener("click", async function () {                            // listener on each filterButton
+        let filteredWorks = buildFilteredWorks(i, works);                             // create filteredWorks according to filter
+        lsWrite("activeFilter","integer", String(i));
+        displayfilteredWorks(filteredWorks);                                          // display this filteredWorks
+        displayFilterButtonsColors(i);                                                // change filterbuttons colors
+      });
+      filters.appendChild(button);
     }
   }
-// #endregion
-// #region debug modalPhotoGallery & ModalAddPhoto
-function displayModalPhotoGallery() {
-  if (lsRead("displaymodalPhotoGallery", "boolean") === true) {
-    lsWrite("displaymodalPhotoGallery", "boolean", false);
-    createModalPhotoGallery();
+  // #endregion
+  // #region createGallery
+    function createGallery() {                                                          // gallery
+      let works = lsRead("works","string");
+      works = JSON.parse(works);
+      let gallery = document.querySelector(".gallery");
+      gallery.innerHTML = "";
+
+      for (let i = 0; i < works.length; i++) {
+        const figure = document.createElement("figure");                                // <figure>
+
+        const img = document.createElement("img");                                      // <img src="assets/images/abajour-tahina.png" alt="Abajour Tahina">
+        img.setAttribute("src", works[i].imageUrl);
+        img.setAttribute("alt", works[i].title);
+
+        const figcaption = document.createElement("figcaption");                        // <figcaption>Abajour Tahina</figcaption>
+        figcaption.textContent = works[i].title;
+
+        figure.appendChild(img);
+        figure.appendChild(figcaption);
+        gallery.appendChild(figure);
+      }
+    }
+  // #endregion
+  // #region debug modalPhotoGallery & ModalAddPhoto
+  function displayModalPhotoGallery() {
+    if (lsRead("displaymodalPhotoGallery", "boolean") === true) {
+      lsWrite("displaymodalPhotoGallery", "boolean", false);
+      createModalPhotoGallery();
+    }
   }
-}
-function displayModalAddPhoto() {                                                           // test a work submission FAST (for debug)
-  let photo = document.createElement("img");
-  photo.setAttribute('id', 'photo')
-  photo.classList.add("photo");
-  document.createElement("blueFrame").appendChild(photo);
+  function displayModalAddPhoto() {                                                           // test a work submission FAST (for debug)
+    let photo = document.createElement("img");
+    photo.setAttribute('id', 'photo')
+    photo.classList.add("photo");
+    document.createElement("blueFrame").appendChild(photo);
 
-  document.getElementById('photo').src = "./assets/images/testi.png"
-  document.getElementById('formText').value = "a";
-  document.getElementById('dropDownListCategories').value = 1;
-  let title = document.getElementById('formText').value;
-  let imageSrc = document.getElementById('photo').src;
-  let categoryId = Number(document.getElementById('dropDownListCategories').value);
-  console.log("posting:\ntitle: "+title+"\nimageSrc: "+imageSrc+"\ncategoryId: "+categoryId); // CNSL
-  postWork (title, imageSrc, categoryId)    // post picture to backend
-}
+    document.getElementById('photo').src = "./assets/images/testi.png"
+    document.getElementById('formText').value = "a";
+    document.getElementById('dropDownListCategories').value = 1;
+    let title = document.getElementById('formText').value;
+    let imageSrc = document.getElementById('photo').src;
+    let categoryId = Number(document.getElementById('dropDownListCategories').value);
+    console.log("posting:\ntitle: "+title+"\nimageSrc: "+imageSrc+"\ncategoryId: "+categoryId); // CNSL
+    postWork (title, imageSrc, categoryId)    // post picture to backend
+  }
+  // #endregion
 // #endregion
 
 
-
-// #region // TODO List
+// #region 5) TODO List
 // xx redirect to homepage automatically if login done (window.location.href = "../index.html";)
 // TODO remove all console.logs ?
 // TODO repasser par tous les modules et verif les modules pas nécessaires à importer et les variables pas utilisées
@@ -231,7 +234,7 @@ function displayModalAddPhoto() {                                               
 
 // HELP ' or " ?
 // #endregion
-//  #region Reminders for extension todo tree
+// #region 6) Reminders for extension todo tree
 // TODO
 // xx
 // BUG has to be solved

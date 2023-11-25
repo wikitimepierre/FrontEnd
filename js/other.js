@@ -196,7 +196,6 @@
     closeButton.addEventListener("click", function() {
       window.location.reload();
     });
-    // TODO : does it read the server ?
   // #endregion
   // #region title "Galerie Photo"
     let titleGaleriePhoto = document.createElement("h3");
@@ -263,19 +262,16 @@
 // #endregion
 // #region Modal AddPhoto
   export function createModalAddPhoto() {
-
   // #region blackOverlay (translucid background)
     let blackOverlay = document.createElement("div");
     blackOverlay.classList.add("blackOverlay");
     document.body.appendChild(blackOverlay);
     // #endregion
-
   // #region modal page
     let modalAddPhoto = document.createElement("div");
     modalAddPhoto.classList.add("modalPhotoGallery");
     blackOverlay.appendChild(modalAddPhoto);
     // #endregion
-
   // #region arrow left button (<-)
     let arrowLeft = document.createElement("button");
     arrowLeft.classList.add("arrowLeft","fa-solid","fa-arrow-left");
@@ -285,7 +281,6 @@
     createModalPhotoGallery();
     });
   // #endregion
-
   // #region close button (X)
     let closeButton = document.createElement("button");
     closeButton.classList.add("closeButton","fa-solid","fa-xmark");
@@ -294,20 +289,17 @@
       window.location.reload();
     });
   // #endregion
-
   // #region title ("Ajout Photo")
     let titleAjoutPhoto = document.createElement("h3");
     titleAjoutPhoto.innerHTML = "<br><br>Ajout Photo<br><br>";
     titleAjoutPhoto.classList.add("titleGaleriePhoto");
     modalAddPhoto.appendChild(titleAjoutPhoto);
     // #endregion
-
   // #region blueFrame (where I'll put icon+text+button then photo)
     let blueFrame = document.createElement("div");
     blueFrame.classList.add("blueFrame");
     modalAddPhoto.appendChild(blueFrame);
   // #endregion
-
   // #region faImage (picture icon)
     let faImage = document.createElement("img");
     faImage.setAttribute('id', 'faImage')
@@ -315,14 +307,12 @@
     faImage.classList.add("faImage");
     blueFrame.appendChild(faImage);
   // #endregion
-
   // #region textBlueFrame (text "jpg, png : 4mo max")
     let textBlueFrame = document.createElement("p");
     textBlueFrame.innerText = "jpg, png : 4mo max";
     textBlueFrame.classList.add("textBlueFrame");
     blueFrame.appendChild(textBlueFrame);
   // #endregion
-
   // #region fileInput ("+ Ajouter photo" fileinput)
     let fileInputButton = document.createElement("button");
     fileInputButton.innerHTML = "+ Ajouter photo";
@@ -362,14 +352,12 @@
       }
     });
   // #endregion
-
   // #region FormTitre (titre)
   let FormTitre = document.createElement("h3");
   FormTitre.innerText = "Titre";
   FormTitre.classList.add("dropDown", "FormTitre");
   modalAddPhoto.appendChild(FormTitre);
     // #endregion
-
   // #region formForm (text input)
     let formForm = document.createElement('input');
     formForm.setAttribute('type', 'text');
@@ -380,14 +368,12 @@
     // if the title is modified then checkValidatePhoto
     formForm.addEventListener("change", function() {checkValidatePhoto()});
     // #endregion
-
   // #region dropDownTextCategories (titre)
   let dropDownTextCategories = document.createElement("h3");
   dropDownTextCategories.innerText = "Catégorie";
   dropDownTextCategories.classList.add("dropDown", "dropDownTextCategories");
   modalAddPhoto.appendChild(dropDownTextCategories);
     // #endregion
-
   // #region dropDownListCategories (category input)
     // create the dropdownlist
     let select = document.createElement('select');
@@ -413,13 +399,11 @@
     // if the category is modified then checkValidatePhoto
     select.addEventListener("change", function() {checkValidatePhoto()});
     // #endregion
-
   // #region line
     let lineModal = document.createElement("hr");
     lineModal.classList.add("lineModal");
     modalAddPhoto.appendChild(lineModal);
     // #endregion
-
   // #region button "Valider"
     let buttonValidatePhoto = document.createElement("button");
     buttonValidatePhoto.innerHTML = "Valider";
@@ -434,16 +418,15 @@
   }
     });
   // #endregion
-
-
   }
   export function checkValidatePhoto() {                                               // returns true if work can be submitted (all conditions met)
-
+    let buttonAddPhoto = document.querySelector('.buttonAddPhoto');
     let photo = (document.getElementById('photo'));
     let title = (document.getElementById('formText').value !== "");
     let category = (document.getElementById('dropDownListCategories').value !== "")
-    let buttonAddPhoto = document.querySelector('.buttonAddPhoto');
-    console.log("checking... photo: "+photo+"- title: "+title+" - category: "+category);
+    if (photo=false) {alert("Vous devez ajouter une photo")}
+    if (title=false) {alert("Vous devez ajouter un titre")}
+    if (category=false) {alert("Vous devez sélectionner une catégorie")}
     if (photo && title && category) {
       buttonAddPhoto.classList.add("filterButtonsValid");
       buttonAddPhoto.classList.remove("filterButtonsNotValid");
@@ -456,7 +439,7 @@
 // #endregion
 
 // #region Backend functions postLoginPassword, postWork, deleteWork
-  export async function postLoginPassword (email, password) {							// Post login/password
+  export async function postLoginPassword (email, password) {							            // Post login/password
     const backendUsers =			"http://localhost:5678/api/users/login";
     let post = JSON.stringify({ email: email, password: password })
     console.log("----------------------------------------");				 // CNSL
@@ -478,9 +461,11 @@
         })
         .then(data => {
           if(data.status === 404) {
-            alert("user not found");
+//            alert("user not found");
+            alert("email ou mot de passe invalide");
           } else if (data.status === 401) {
-            alert("wrong password");
+//            alert("wrong password");
+            alert("email ou mot de passe invalide");
           }})
       } else {
         let activeFilter = lsRead("activeFilter","integer");				 // save activeFilter from localStorage
@@ -496,7 +481,7 @@
       }
     )
   }
-  export async function postWork(title, imageSrc, categoryId) {					 // Post a new work
+  export async function postWork(title, imageSrc, categoryId) {					              // Post a new work
     const backendWorks = "http://localhost:5678/api/works";
     let token = lsRead("token","string")
 

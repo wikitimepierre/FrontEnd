@@ -17,12 +17,11 @@ function submitFormListener() {                                   // listener on
 }
 function submitForm(email, password) {                            // post login-password
   if (validationEmail(email)=== false) {
-    alert("Email non valide");                                    // CNSL
+    alert("Format email non valide");                                    // CNSL
   } else {
       console.log("I'm submitting ("+email+" - "+password+")");   // CNSL
       postLoginPassword(email, password);
-
-    }
+  }
 }
 function validationEmail(email) {                                 // check if email is well formatted
   var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
