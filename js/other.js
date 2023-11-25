@@ -410,12 +410,19 @@
     buttonValidatePhoto.classList.add("filterButtons","filterButtonsNotValid","buttonAddPhoto");
     modalAddPhoto.appendChild(buttonValidatePhoto);
     buttonValidatePhoto.addEventListener("click", function() {
+      let photo = (document.getElementById('photo'));
+      let title = (document.getElementById('formText').value !== "");
+      let category = (document.getElementById('dropDownListCategories').value !== "")
+      alert("photo: "+photo+" title: "+title+" category: "+category) // CNSL
+      if (photo===false || photo === null) {alert("Vous devez ajouter une photo")}
+      if (title===false) {alert("Vous devez ajouter un titre")}
+      if (category===false) {alert("Vous devez sélectionner une catégorie")}
       if (checkValidatePhoto()) {
-        let title = document.getElementById('formText').value;
-        let photo = document.getElementById('photo').src;
-        let categoryId = Number(document.getElementById('dropDownListCategories').value);
+        photo = document.getElementById('photo').src;
+        title = document.getElementById('formText').value;
+        categoryId = Number(document.getElementById('dropDownListCategories').value);
         postWork (title, photo, categoryId)    // post picture to backend
-  }
+      }
     });
   // #endregion
   }
@@ -424,9 +431,6 @@
     let photo = (document.getElementById('photo'));
     let title = (document.getElementById('formText').value !== "");
     let category = (document.getElementById('dropDownListCategories').value !== "")
-    if (photo=false) {alert("Vous devez ajouter une photo")}
-    if (title=false) {alert("Vous devez ajouter un titre")}
-    if (category=false) {alert("Vous devez sélectionner une catégorie")}
     if (photo && title && category) {
       buttonAddPhoto.classList.add("filterButtonsValid");
       buttonAddPhoto.classList.remove("filterButtonsNotValid");
