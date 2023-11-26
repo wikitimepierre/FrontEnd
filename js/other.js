@@ -413,7 +413,6 @@
       let photo = (document.getElementById('photo'));
       let title = (document.getElementById('formText').value !== "");
       let category = (document.getElementById('dropDownListCategories').value !== "")
-      alert("photo: "+photo+" title: "+title+" category: "+category) // CNSL
       if (photo===false || photo === null) {alert("Vous devez ajouter une photo")}
       if (title===false) {alert("Vous devez ajouter un titre")}
       if (category===false) {alert("Vous devez sélectionner une catégorie")}
@@ -424,7 +423,7 @@
         postWork (title, photo, categoryId)    // post picture to backend
       }
     });
-  // #endregion
+    // #endregion
   }
   export function checkValidatePhoto() {                                               // returns true if work can be submitted (all conditions met)
     let buttonAddPhoto = document.querySelector('.buttonAddPhoto');
@@ -440,7 +439,7 @@
       buttonAddPhoto.classList.remove("filterButtonsValid");
     }
   }
-// #endregion
+  // #endregion
 
 // #region Backend functions postLoginPassword, postWork, deleteWork
   export async function postLoginPassword (email, password) {							            // Post login/password
